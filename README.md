@@ -6,7 +6,7 @@ express+mongodDB的一套后台管理系统
 #### 软件架构
 1、基于express+mongodDB实现的一套后台管理系统，功能点有：
 
-邮箱验证、注册、登录、商品的增删改查、国际化管理（增删改查、批量添加、excel导入导出、导出js文件）、图片上传等
+邮箱验证、注册、登录、jwt验证、商品的增删改查、国际化管理（增删改查、批量添加、excel导入导出、导出js文件）、图片上传等
 
 2、利用apidoc生成接口文档 [文档生成示例](http://blog.aigouzhushou.com/express_mongodDB/apidoc/)
 
