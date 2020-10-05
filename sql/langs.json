@@ -1,0 +1,2 @@
+{"_id":{"$oid":"5f7ae1183f0f1a4f44d4c86e"},"key":"member_card_number","zh-CN":"卡号\r","notice":"卡号\r","en-US":"Card number","vi-VN":"Số thẻ","th-TH":"หมายเลขบัตร","en-IN":"member_card_number","__v":0}
+{"_id":{"$oid":"5f7ae1183f0f1a4f44d4c86f"},"key":"member_name","zh-CN":"姓名\r","notice":"姓名\r","en-US":"Name","vi-VN":"Tên","th-TH":"ชื่อ","en-IN":"member_name","__v":0}

@@ -1,0 +1,6 @@
+{"_id":{"$oid":"5f2ff62e46243e36a8940bf7"},"name":"土豆丝","price":15,"desc":"家常菜","typename":"热菜","typeid":2,"img":"/public/img/tudousi.jpg","__v":0}
+{"_id":{"$oid":"5f3001194bb5d52ccc8e0c2c"},"name":"老虎菜","price":5,"desc":"凉菜、下酒菜","typename":"凉菜","typeid":1,"img":"/public/img/tudousi.jpg","__v":0}
+{"_id":{"$oid":"5f301b5e47f9f3012d2ba435"},"name":"土豆丝1","price":15,"desc":"家常菜","typename":"热菜","typeid":2,"img":"/public/img/tudousi.jpg","__v":0}
+{"_id":{"$oid":"5f301b5e47f9f3012d2ba438"},"name":"土豆丝2","price":15,"desc":"家常菜","typename":"热菜","typeid":2,"img":"/public/img/tudousi.jpg","__v":0}
+{"_id":{"$oid":"5f301b5e47f9f3012d2ba43b"},"name":"土豆丝222222222222","price":15,"desc":"家常菜333333333","typename":"热菜333333333","typeid":2,"img":"/public/img/tudousi.jpg","__v":0}
+{"_id":{"$oid":"5f301f3247f9f3012d2ba540"},"name":"土豆丝6666","price":15,"desc":"家常菜","typename":"热菜","typeid":2,"img":"/public/img/tudousi.jpg","__v":0}
