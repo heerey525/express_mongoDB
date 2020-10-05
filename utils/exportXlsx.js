@@ -17,7 +17,7 @@ function dlXlsx(_data) {
     goods.map((item) => {
       map1['变量'] = item.key
       map1['中文'] = item['zh-CN']
-      map1['中文注释'] = item.notice
+      map1['解释中文'] = item.notice
       map1['英文'] = item['en-US']
       map1['越南语'] = item['vi-VN']
       map1['泰语'] = item['th-TH']
