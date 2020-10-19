@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../db/model/userModel');
 const Mail = require('../utils/mail');
 const { setToken } = require('../utils/token');
+const { getCounter } = require('../utils/counter');
 
 // 内存中存入验证码
 let codes = {}
@@ -30,7 +31,8 @@ router.post('/reg', (req, res) => {
     User.find({ us })
     .then((data) => {
         if (data.length === 0) {
-            return User.insertMany({ us, ps })
+            const time = (new Date()).getTime()
+            return User.insertMany({ us, ps, time })
         } else {
             res.send({ code: 500, msg: '用户名已存在' })
         }
@@ -42,6 +44,77 @@ router.post('/reg', (req, res) => {
         res.send({ code: 500, msg: '创建失败' })
     })
 })
+
+/**
+ * @api {post} /user/add 用户添加
+ * @apiName 用户添加
+ * @apiGroup User
+ *
+ * @apiParam {String} us 用户名
+ * @apiParam {String} ps 用户密码
+ * @apiParam {String} time 创建时间
+ */
+router.post('/add', (req, res) => {
+    let { us, ps } = req.body
+    if (!us || !ps) return res.send({code: 500, msg: '缺少参数'})
+    User.find({ us })
+    .then((data) => {
+        if (data.length === 0) {
+            return getCounter('user')
+        } else {
+            res.send({ code: 500, msg: '用户名已存在' })
+        }
+    })
+    .then((id) => {
+        const time = (new Date()).getTime()
+        return User.insertMany({ us, ps, time, id })
+    })
+    .then(() => {
+        res.send({ code: 200, msg: '创建成功' })
+    })
+    .catch(() => {
+        res.send({ code: 500, msg: '创建失败' })
+    })
+  })
+
+/**
+ * @api {post} /user/add 用户分配角色
+ * @apiName 用户分配角色
+ * @apiGroup User
+ *
+ * @apiParam {String} id 用户id
+ * @apiParam {String} roleId 角色id
+ */
+router.post('/updateRole', (req, res) => {
+    let { id, roleId } = req.body
+    if (!id || !roleId) return res.send({code: 500, msg: '缺少参数'})
+    User.update({ id }, { roleId })
+      .then(() => {
+        res.send({ code: 200, msg: '修改成功' })
+      })
+      .catch(() => {
+        res.send({ code: 500, msg: '修改失败' })
+      })
+  })
+
+/**
+ * @api {post} /user/del 用户删除
+ * @apiName 用户删除
+ * @apiGroup User
+ *
+ * @apiParam {Number} _id id
+ */
+router.post('/del', (req, res) => {
+    const { _id } = req.body
+  
+    User.remove({ _id })
+      .then((data) => {
+        res.send({ code: 200, msg: '删除成功' })
+      })
+      .catch(() => {
+        res.send({ code: 500, msg: '删除失败' })
+      })
+  })
 
 /**
  * @api {post} /user/login 用户登录
@@ -65,7 +138,7 @@ router.post('/login', (req, res) => {
     User.find({ us, ps })
     .then((data) => {
         if (data.length>0) {
-            let token = setToken({login: true, name: us})
+            let token = setToken({login: true, name: us, roleId: data[0].roleId})
             res.send({ code: 200, msg: '登录成功', token })
         } else {
             res.send({ code: 500, msg: '账号或密码不正确' })
@@ -75,6 +148,50 @@ router.post('/login', (req, res) => {
         res.send({ code: 500, msg: '登录失败' })
     })
 })
+
+/**
+ * @api {post} /user/page 用户列表
+ * @apiName 用户列表
+ * @apiGroup User
+ *
+ * @apiParam {Number} pageNo 页数
+ * @apiParam {Number} pageSize 条数
+ * @apiParam {Number} key 关键字查询
+ */
+router.post('/page', (req, res) => {
+    const pageNo = Number(req.body.pageNo) || 1
+    const pageSize = Number(req.body.pageSize) || 2
+  
+    const { key } = req.body
+    const reg = new RegExp(key)
+    let query = { $or: [{ us: { $regex: reg } }] }
+    User.countDocuments(query, (err, count) => {
+      if (err) {
+        res.send({ code: 500, msg: '用户列表获取失败' })
+        return
+      }
+      User.find(query)
+        .skip(pageSize * (pageNo - 1))
+        .limit(pageSize)
+        .then((data) => {
+            const temp = JSON.parse(JSON.stringify(data))
+            temp.forEach(function(item){
+                delete item.ps
+            })
+          res.send({
+            code: 200,
+            data: temp,
+            total: count,
+            pageNo: pageNo,
+            pageSize: pageSize,
+            msg: '用户列表获取成功',
+          })
+        })
+        .catch(() => {
+          res.send({ code: 500, msg: '用户列表获取失败' })
+        })
+    })
+  })
 
 /**
  * @api {post} /user/getMailCode 获取邮箱验证码

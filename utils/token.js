@@ -32,4 +32,18 @@ function verToken(token) {
     })
 }
 
-module.exports = { setToken, verToken }
+//验证token
+function getTokenInfo(token) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, screat ,(err, data) => {
+            if (err) {
+                // 比对当前时间戳  jwt创建的时间+有效期  前端收到重新获取token
+                reject({code: 502, msg: 'token 过期'})
+                return
+            }
+            resolve({code: 200, data, msg: 'token 过期'})
+        });
+    })
+}
+
+module.exports = { setToken, verToken, getTokenInfo }

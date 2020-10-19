@@ -504,6 +504,400 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/permit/list",
+    "title": "全部权限列表(用于分配权限的列表)",
+    "name": "全部权限列表(用于分配权限的列表)",
+    "group": "Permit",
+    "version": "0.0.0",
+    "filename": "router/permitRouter.js",
+    "groupTitle": "Permit"
+  },
+  {
+    "type": "post",
+    "url": "/permit/update",
+    "title": "权限修改",
+    "name": "权限修改",
+    "group": "Permit",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "fid",
+            "description": "<p>父级</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/permitRouter.js",
+    "groupTitle": "Permit"
+  },
+  {
+    "type": "post",
+    "url": "/permit/page",
+    "title": "权限列表",
+    "name": "权限列表",
+    "group": "Permit",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pageNo",
+            "description": "<p>页数</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>条数</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "key",
+            "description": "<p>关键字查询</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/permitRouter.js",
+    "groupTitle": "Permit"
+  },
+  {
+    "type": "post",
+    "url": "/permit/del",
+    "title": "权限删除",
+    "name": "权限删除",
+    "group": "Permit",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>id</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/permitRouter.js",
+    "groupTitle": "Permit"
+  },
+  {
+    "type": "post",
+    "url": "/permit/add",
+    "title": "权限添加",
+    "name": "权限添加",
+    "group": "Permit",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>权限名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "fid",
+            "description": "<p>权限父级</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/permitRouter.js",
+    "groupTitle": "Permit"
+  },
+  {
+    "type": "post",
+    "url": "/permit/menus",
+    "title": "用户权限列表(用户拥有的权限列表)",
+    "name": "用户权限列表(用户拥有的权限列表)",
+    "group": "Permit",
+    "version": "0.0.0",
+    "filename": "router/permitRouter.js",
+    "groupTitle": "Permit"
+  },
+  {
+    "type": "post",
+    "url": "/role/update",
+    "title": "角色修改",
+    "name": "角色修改",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roleId",
+            "description": "<p>id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roleName",
+            "description": "<p>名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roleDesc",
+            "description": "<p>描述</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/roleRouter.js",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "post",
+    "url": "/role/page",
+    "title": "角色列表",
+    "name": "角色列表",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pageNo",
+            "description": "<p>页数</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>条数</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "key",
+            "description": "<p>关键字查询</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/roleRouter.js",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "post",
+    "url": "/role/del",
+    "title": "角色删除",
+    "name": "角色删除",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>id</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/roleRouter.js",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "post",
+    "url": "/role/update",
+    "title": "角色权限分配",
+    "name": "角色权限分配",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roleId",
+            "description": "<p>id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "authIds",
+            "description": "<p>权限id集合</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/roleRouter.js",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "post",
+    "url": "/role/add",
+    "title": "角色添加",
+    "name": "角色添加",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roleName",
+            "description": "<p>角色名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roleDesc",
+            "description": "<p>角色描述</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/roleRouter.js",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "post",
+    "url": "/user/add",
+    "title": "用户分配角色",
+    "name": "用户分配角色",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roleId",
+            "description": "<p>角色id</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/userRouter.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/user/page",
+    "title": "用户列表",
+    "name": "用户列表",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pageNo",
+            "description": "<p>页数</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>条数</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "key",
+            "description": "<p>关键字查询</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/userRouter.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/user/del",
+    "title": "用户删除",
+    "name": "用户删除",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>id</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/userRouter.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
     "url": "/user/reg",
     "title": "用户注册",
     "name": "用户注册",
@@ -536,6 +930,43 @@ define({ "api": [
           "type": "json"
         }
       ]
+    },
+    "version": "0.0.0",
+    "filename": "router/userRouter.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/user/add",
+    "title": "用户添加",
+    "name": "用户添加",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "us",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "ps",
+            "description": "<p>用户密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "time",
+            "description": "<p>创建时间</p>"
+          }
+        ]
+      }
     },
     "version": "0.0.0",
     "filename": "router/userRouter.js",

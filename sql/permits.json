@@ -1,0 +1,8 @@
+{"_id":{"$oid":"5f7f20a737eeba42a06665fd"},"id":1,"name":"权限管理","fid":0,"path":"permits","level":0,"__v":0,"mark":"权限管理"}
+{"_id":{"$oid":"5f7f229d31c287510488903f"},"id":2,"name":"商品管理","fid":0,"path":"goods","level":0,"mark":"商品管理","__v":0}
+{"_id":{"$oid":"5f7f22bb31c2875104889040"},"id":3,"name":"国际化管理","fid":0,"path":"lang","level":0,"mark":"国际化管理","__v":0}
+{"_id":{"$oid":"5f7f23e431c2875104889041"},"id":4,"name":"其他管理","fid":0,"path":"other","level":0,"mark":"其他管理","__v":0}
+{"_id":{"$oid":"5f8be605191d9543e0e972ba"},"id":13,"name":"用户管理","fid":0,"path":"users","level":0,"mark":"用户管理","__v":0}
+{"_id":{"$oid":"5f8beb2c191d9543e0e972bb"},"id":14,"name":"权限列表","fid":1,"path":"permits","level":1,"mark":"权限列表","__v":0}
+{"_id":{"$oid":"5f8bf05f77353133b8cb273a"},"id":15,"name":"角色列表","fid":1,"path":"roles","level":1,"mark":"角色列表","__v":0}
+{"_id":{"$oid":"5f8bf09177353133b8cb273b"},"id":16,"name":"其他","fid":4,"path":"other","level":1,"mark":"其他","__v":0}

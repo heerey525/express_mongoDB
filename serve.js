@@ -19,8 +19,30 @@ const userRouter = require('./router/userRouter');
 const foodRouter = require('./router/foodRouter');
 const fileRouter = require('./router/fileRouter');
 const langRouter = require('./router/langRouter');
+const roleRouter = require('./router/roleRouter');
+const permitRouter = require('./router/permitRouter');
 
 app.use('/user', userRouter);
+app.use('/role', (req, res, next) => {
+    const { token } = req.headers
+    verToken(token)
+    .then(() => {
+        next()
+    })
+    .catch((err) => {
+        res.send(err)
+    })
+}, roleRouter);
+app.use('/permit', (req, res, next) => {
+    const { token } = req.headers
+    verToken(token)
+    .then(() => {
+        next()
+    })
+    .catch((err) => {
+        res.send(err)
+    })
+}, permitRouter);
 app.use('/food', (req, res, next) => {
     const { token } = req.headers
     verToken(token)

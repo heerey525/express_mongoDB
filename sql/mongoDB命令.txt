@@ -1,0 +1,37 @@
+show dbs
+展示所有数据库
+
+db
+当前数据库
+
+use 数据库名
+变更为当前数据库
+
+show collections
+展示当前数据库所有集合
+
+
+导出(mongoexport) 
+导出数据命令：mongoexport -h dbhost -d dbname -c collectionName -o output
+列子：mongoexport -h localhost:27017 -d expressdbs -c counters -o D:/proAddress/node/express_mongoDB/sql/counters.json
+
+-h ：数据库地址，MongoDB 服务器所在的 IP 与 端口，如 localhost:27017
+
+-d ：指明使用的数据库实例，如 test
+
+-c 指明要导出的集合，如 c1
+
+-o 指明要导出的文件名，如 E:/wmx/mongoDump/c1.json，注意是文件而不是目录，目录不存在时会一同新建
+
+
+导入(mongoimport)
+导入数据命令：mongoimport -h dbhost -d dbname -c collectionname 文件的地址...
+例子：mongoimport -h localhost:27017 -d expressdbs -c counters D:/proAddress/node/express_mongoDB/sql/counters.json
+
+-h ： 数据库地址，MongoDB 服务器所在的 IP 与 端口，如 localhost:27017
+
+-d ：指明使用的库，指明使用的数据库实例，如 test
+
+-c ：指明要导入的集合，如 c1、c2、可以和导出时不一致，自定义即可，不存在时会直接创建。
+
+本地的文件地址：事先导出好的 mongoDB 集合文件
