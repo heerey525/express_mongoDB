@@ -56,7 +56,7 @@ router.post('/update', (req, res) => {
   })
   
 /**
- * @api {post} /role/update 角色权限分配
+ * @api {post} /role/setPermits 角色权限分配
  * @apiName 角色权限分配
  * @apiGroup Role
  *

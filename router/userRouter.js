@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../db/model/userModel');
 const Mail = require('../utils/mail');
-const { setToken } = require('../utils/token');
+const { setToken, getTokenInfo } = require('../utils/token');
 const { getCounter } = require('../utils/counter');
 
 // 内存中存入验证码
@@ -78,7 +78,50 @@ router.post('/add', (req, res) => {
   })
 
 /**
- * @api {post} /user/add 用户分配角色
+ * @api {post} /user/updateState 用户账号状态修改
+ * @apiName 用户账号状态修改
+ * @apiGroup User
+ *
+ * @apiParam {String} id 用户id
+ * @apiParam {String} state 状态 0-禁用 1-启用
+ */
+router.post('/updateState', (req, res) => {
+    let { id, state } = req.body
+    if (!id || (state !== true && state !== false)) return res.send({code: 500, msg: '缺少参数'})
+    User.update({ id }, { state })
+      .then(() => {
+        res.send({ code: 200, msg: '修改成功' })
+      })
+      .catch(() => {
+        res.send({ code: 500, msg: '修改失败' })
+      })
+  })
+
+/**
+ * @api {post} /user/updateps 用户修改密码
+ * @apiName 用户修改密码
+ * @apiGroup User
+ *
+ * @apiParam {String} oldPs 旧密码
+ * @apiParam {String} newPs 新密码
+ */
+router.post('/updateps', (req, res) => {
+    let { oldPs, newPs } = req.body
+    if (!oldPs || !newPs) return res.send({code: 500, msg: '缺少参数'})
+    getTokenInfo(req.headers.token)
+    .then(data => {
+        return User.update({ us: data.data.name }, { ps: newPs })
+    })
+    .then(() => {
+        res.send({ code: 200, msg: '修改成功' })
+    })
+    .catch(() => {
+        res.send({ code: 500, msg: '修改失败' })
+    })
+  })
+
+/**
+ * @api {post} /user/updateRole 用户分配角色
  * @apiName 用户分配角色
  * @apiGroup User
  *
@@ -138,6 +181,7 @@ router.post('/login', (req, res) => {
     User.find({ us, ps })
     .then((data) => {
         if (data.length>0) {
+            if (!data[0].state) return res.send({ code: 502, msg: '账号已被禁用' })
             let token = setToken({login: true, name: us, roleId: data[0].roleId})
             res.send({ code: 200, msg: '登录成功', token })
         } else {

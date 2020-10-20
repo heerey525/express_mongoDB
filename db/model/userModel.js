@@ -7,7 +7,7 @@ var userSchema = new Schema({
   time: {type:Number,required:true}, // 创建时间
   age: Number, // 年龄
   roleId: {type:Number,default:1}, // 绑定的角色id
-  state: {type:Number,default:1}, // 是否启用
+  state: {type:Boolean,default:false}, // 是否启用
   sex:  {type:Number,default:0}, // 性别
   id: {type:Number,default:1} // id
 });
