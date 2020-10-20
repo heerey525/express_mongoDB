@@ -748,7 +748,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/role/update",
+    "url": "/role/setPermits",
     "title": "角色权限分配",
     "name": "角色权限分配",
     "group": "Role",
@@ -808,7 +808,37 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/user/add",
+    "url": "/user/updateps",
+    "title": "用户修改密码",
+    "name": "用户修改密码",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "oldPs",
+            "description": "<p>旧密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "newPs",
+            "description": "<p>新密码</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/userRouter.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/user/updateRole",
     "title": "用户分配角色",
     "name": "用户分配角色",
     "group": "User",
@@ -1006,6 +1036,36 @@ define({ "api": [
           "type": "json"
         }
       ]
+    },
+    "version": "0.0.0",
+    "filename": "router/userRouter.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/user/updateState",
+    "title": "用户账号状态修改",
+    "name": "用户账号状态修改",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "state",
+            "description": "<p>状态 0-禁用 1-启用</p>"
+          }
+        ]
+      }
     },
     "version": "0.0.0",
     "filename": "router/userRouter.js",

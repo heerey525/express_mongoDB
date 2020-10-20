@@ -1,2 +1,2 @@
-{"_id":{"$oid":"5f7acdea10b862bf1ccf5677"},"sex":0,"id":1,"us":"ceshi@ceshi.com","ps":"ceshi","roleId":24}
-{"_id":{"$oid":"5f831eaacea49d13b0e65a1d"},"state":1,"sex":0,"id":4,"us":"1@qq.com","ps":"1@qq.com","time":1.602428586049E+12,"__v":0,"roleId":1}
+{"_id":{"$oid":"5f7acdea10b862bf1ccf5677"},"sex":0,"id":1,"us":"ceshi@ceshi.com","ps":"ceshi","roleId":24,"state":true}
+{"_id":{"$oid":"5f831eaacea49d13b0e65a1d"},"state":true,"sex":0,"id":4,"us":"1@qq.com","ps":"123456","time":1.602428586049E+12,"__v":0,"roleId":1}
