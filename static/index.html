@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上传文件返回压缩包</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center; /*定义body的元素垂直居中*/
+            justify-content: center; /*定义body的里的元素水平居中*/
+        }
+        .box {
+            margin-bottom: 15vh;
+            width: 60vw;
+            height: 50vh;
+            text-align: center;
+        }
+        .file {
+            margin: auto;
+            position: relative;
+            display: block;
+            background: #D0EEFF;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            /* padding: 4px 12px; */
+            overflow: hidden;
+            color: #1E88C7;
+            text-decoration: none;
+            text-indent: 0;
+            /* line-height: 1.5; */
+            width: 80%;
+            line-height: 8vh;
+            font-size: 20px;
+        }
+        .file.warning {
+            color: #ffffff;
+            background: red;
+            border: 1px solid orange;
+        }
+
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        .file:hover {
+            background: #AADFFD;
+            border-color: #78C3F3;
+            color: #004974;
+            text-decoration: none;
+        }
+        #loading {
+            position: fixed;
+            top: 0;
+        }
+        img {
+            display: block;
+            margin: auto;
+            width: 20vw;
+            height: 20vw;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading" class="hidden">
+       <img src="./img/loading.gif" alt="">
+       <br>上传中，请等候
+    </div>
+    <br>
+    <div class="box">
+        <h3>上传文件返回压缩包</h3>
+        <a href="javascript:;" class="file">
+            选择上传文件
+            <input id="upload" type="file" accept="image/*,video/*" multiple class="abc">
+        </a>
+        <br>
+        <button class="file" onclick="download()">下载压缩文件</button>
+        <br>
+        <button class="file warning" onclick="remove()">删除记录</button>
+        <p>使用方法：先点击上传文件按钮上传文件，提示上传成功后，点击下载文件按钮，下载压缩包</p>
+        <!-- <a download href="./../yasuowenjian.rar" target="_blank">下载压缩文件​</a>​ -->
+    </div>
+    
+    <script src="zepto.min.js"></script>
+    <script>
+        function download() {
+            // window.location.href = "http://localhost:6166/file/downloadrar"
+            $.get("http://localhost:6166/file/downloadrar", function(data){
+                if (data && data.code === 500) {
+                    alert('请先上传文件')
+                    return
+                }
+                window.location.href = "http://localhost:6166/file/downloadrar"
+            });
+        }
+        function remove() {
+            $.get("http://localhost:6166/file/downloadrar/remove", function(data){
+                if (data.code === 200) {
+                    alert('删除成功')
+                }
+            })
+        }
+        $("#upload").on('change', function () {
+            console.log('this.files', this.files)
+            var formData = new FormData()
+            // formData.append('avatar', this.files)
+            for (var i = 0; i < this.files.length; i++) {
+                formData.append("avatar", this.files[i]);
+            }
+            $("#loading").removeClass("hidden");
+            // 上传中
+            $.ajax({
+                contentType: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                processData: false,
+                // 告诉jQuery不要去处理发送的数据
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: 'http://localhost:6166/file/uploadrar',
+                data: formData,
+                success: function (data) {
+                    $("#loading").addClass("hidden");
+                    if (data.code === 200) {
+                       alert('上传成功') 
+                    } else {
+                        alert('上传失败，请重新上传')
+                    }
+                },
+                error: function (err) {
+                    $("#loading").addClass("hidden");
+                    alert('上传失败，请重新上传')
+                }
+            })
+        })
+    </script>
+
+</html>

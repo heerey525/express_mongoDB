@@ -60,7 +60,11 @@ app.use('/file', (req, res, next) => {
         next()
     })
     .catch((err) => {
-        res.send(err)
+        if (req._parsedUrl.pathname === '/file/downloadrar' || req._parsedUrl.pathname === '/file/uploadrar' || req._parsedUrl.pathname === '/file/downloadrar/remove') {
+            next()
+        }else {
+           res.send(err) 
+        }
     })
 }, fileRouter);
 app.use('/lang', (req, res, next) => {
