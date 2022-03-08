@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Food = require('../db/model/foodModel')
+const { formatDateTime } = require('../utils/time');
 
 /**
  * @api {post} /food/add 商品添加
@@ -85,7 +86,7 @@ router.post('/update', (req, res) => {
  */
 router.post('/page', (req, res) => {
   const pageNo = Number(req.body.pageNo) || 1
-  const pageSize = Number(req.body.pageSize) || 2
+  const pageSize = Number(req.body.pageSize) || 10
   const { typeid } = req.body
 
   const { key } = req.body
@@ -104,22 +105,42 @@ router.post('/page', (req, res) => {
       res.send({ code: 500, msg: '商品列表获取失败' })
       return
     }
-    Food.find(query)
-      .skip(pageSize * (pageNo - 1))
-      .limit(pageSize)
-      .then((data) => {
+    Food.aggregate([
+        {
+            $match: query
+        },
+        {
+            $lookup: { // 多表联查  通过roleId获取foodtypes表数据
+                from: "foodtypes", // 需要关联的表roles
+                localField: "typeid", // foods表需要关联的键
+                foreignField: "typeid", // foodtypes表需要关联的键
+                as: "foodtypes" // 对应的外键集合的数据，是个数组 例如： "roles": [{ "roleName": "超级管理员"}]
+            }
+        },
+        {
+            $skip: pageSize * (pageNo - 1)
+        },
+        {
+            $limit: pageSize
+        },
+        {
+            // $project中的字段值 为1表示筛选该字段，为0表示过滤该字段
+            $project: { foodtypes: { createTime: 0, typeid: 0, __v: 0, _id: 0 } }
+        }
+    ], function(err, docs) {
+        if (err) {
+            res.send({ code: 500, msg: '商品列表获取失败' })
+            return;
+        }
         res.send({
-          code: 200,
-          data,
-          total: count,
-          pageNo: pageNo,
-          pageSize: pageSize,
-          msg: '商品列表获取成功',
+            code: 200,
+            data: docs,
+            total: count,
+            pageNo: pageNo,
+            pageSize: pageSize,
+            msg: '商品列表获取成功',
         })
-      })
-      .catch(() => {
-        res.send({ code: 500, msg: '商品列表获取失败' })
-      })
+    })
   })
 })
 

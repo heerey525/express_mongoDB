@@ -2,3 +2,4 @@
 {"_id":"user","__v":0,"seq":4}
 {"_id":"role","__v":0,"seq":24}
 {"_id":"permit","__v":0,"seq":16}
+{"_id":"foodType","__v":0,"seq":4}

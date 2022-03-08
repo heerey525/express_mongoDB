@@ -46,6 +46,7 @@ router.post('/add', (req, res) => {
  */
 router.post('/update', (req, res) => {
     const { roleId, roleDesc, roleName } = req.body
+    if (roleId === 24) return res.send({ code: 500, msg: '修改失败，超级管理员禁止修改' })
     Role.update({ roleId }, { roleDesc, roleName })
       .then(() => {
         res.send({ code: 200, msg: '修改成功' })
@@ -65,13 +66,14 @@ router.post('/update', (req, res) => {
  */
 router.post('/setPermits', (req, res) => {
   const { roleId, authIds } = req.body
+  if (roleId === 24) return res.send({ code: 500, msg: '配置失败，超级管理员禁止修改' })
   Role.updateOne({ roleId }, { authIds })
     .then((data) => {
       console.log(data)
-      res.send({ code: 200, msg: '修改成功' })
+      res.send({ code: 200, msg: '配置成功' })
     })
     .catch(() => {
-      res.send({ code: 500, msg: '修改失败' })
+      res.send({ code: 500, msg: '配置失败' })
     })
 })
 
@@ -84,7 +86,7 @@ router.post('/setPermits', (req, res) => {
  */
 router.post('/del', (req, res) => {
     const { _id } = req.body
-  
+    if (_id === '5f8bf75d49d57c0008b707e4') return res.send({ code: 500, msg: '配置失败，超级管理员禁止删除' })
     Role.remove({ _id })
       .then((data) => {
         res.send({ code: 200, msg: '删除成功' })
@@ -104,8 +106,8 @@ router.post('/del', (req, res) => {
  * @apiParam {Number} key 关键字查询
  */
 router.post('/page', (req, res) => {
-    const pageNo = Number(req.body.pageNo) || 0
-    const pageSize = Number(req.body.pageSize) || 0
+    const pageNo = Number(req.body.pageNo) || 1
+    const pageSize = Number(req.body.pageSize) || 10
   
     const { key } = req.body
     const reg = new RegExp(key)

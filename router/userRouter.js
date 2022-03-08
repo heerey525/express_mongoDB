@@ -52,10 +52,13 @@ router.post('/reg', (req, res) => {
  *
  * @apiParam {String} us 用户名
  * @apiParam {String} ps 用户密码
- * @apiParam {String} time 创建时间
+ * @apiParam {String} roleId 角色
+ * @apiParam {Number} age 年龄
+ * @apiParam {Boolean} state 是否启用
+ * @apiParam {Number} sex 性别 0-男 1-女
  */
 router.post('/add', (req, res) => {
-    let { us, ps } = req.body
+    let { us, ps, age, state, sex } = req.body
     if (!us || !ps) return res.send({code: 500, msg: '缺少参数'})
     User.find({ us })
     .then((data) => {
@@ -67,7 +70,7 @@ router.post('/add', (req, res) => {
     })
     .then((id) => {
         const time = (new Date()).getTime()
-        return User.insertMany({ us, ps, time, id })
+        return User.insertMany({ us, ps, time, id, age, state, sex })
     })
     .then(() => {
         res.send({ code: 200, msg: '创建成功' })
@@ -76,6 +79,30 @@ router.post('/add', (req, res) => {
         res.send({ code: 500, msg: '创建失败' })
     })
   })
+
+/**
+ * @api {post} /user/update 用户编辑
+ * @apiName 用户编辑
+ * @apiGroup User
+ *
+ * @apiParam {String} id id
+ * @apiParam {String} us 用户名
+ * @apiParam {String} roleId 角色
+ * @apiParam {Number} age 年龄
+ * @apiParam {Boolean} state 是否启用
+ * @apiParam {Number} sex 性别 0-男 1-女
+ */
+ router.post('/update', (req, res) => {
+  let { id, us, age, state, sex } = req.body
+  if (!id || !us ) return res.send({code: 500, msg: '缺少参数'})
+  User.update({ id }, { us, age, state, sex })
+    .then(() => {
+        res.send({ code: 200, msg: '创建成功' })
+    })
+    .catch(() => {
+        res.send({ code: 500, msg: '创建失败' })
+    })
+})
 
 /**
  * @api {post} /user/updateState 用户账号状态修改
@@ -204,35 +231,52 @@ router.post('/login', (req, res) => {
  */
 router.post('/page', (req, res) => {
     const pageNo = Number(req.body.pageNo) || 1
-    const pageSize = Number(req.body.pageSize) || 2
+    const pageSize = Number(req.body.pageSize) || 10
   
     const { key } = req.body
     const reg = new RegExp(key)
     let query = { $or: [{ us: { $regex: reg } }] }
     User.countDocuments(query, (err, count) => {
-      if (err) {
-        res.send({ code: 500, msg: '用户列表获取失败' })
-        return
-      }
-      User.find(query)
-        .skip(pageSize * (pageNo - 1))
-        .limit(pageSize)
-        .then((data) => {
-            const temp = JSON.parse(JSON.stringify(data))
-            temp.forEach(function(item){
-                delete item.ps
+        if (err) {
+            res.send({ code: 500, msg: '用户列表获取失败' })
+            return
+        }
+
+        User.aggregate([
+            {
+                $match: query
+            },
+            {
+                $lookup: { // 多表联查  通过roleId获取roles表数据
+                    from: "roles", // 需要关联的表roles
+                    localField: "roleId", // users表需要关联的键
+                    foreignField: "roleId", // roles表需要关联的键
+                    as: "roles" // 对应的外键集合的数据，是个数组 例如： "roles": [{ "roleName": "超级管理员"}]
+                }
+            },
+            {
+                $skip: pageSize * (pageNo - 1)
+            },
+            {
+                $limit: pageSize
+            },
+            {
+                // $project中的字段值 为1表示筛选该字段，为0表示过滤该字段
+                $project: { ps: 0, roles: { _id: 0, roleDesc: 0, __v: 0, authIds: 0, roleId: 0 } }
+            }
+        ], function(err, docs) {
+            if (err) {
+                res.send({ code: 500, msg: '用户列表获取失败' })
+                return;
+            }
+            res.send({
+                code: 200,
+                data: docs,
+                total: count,
+                pageNo: pageNo,
+                pageSize: pageSize,
+                msg: '用户列表获取成功',
             })
-          res.send({
-            code: 200,
-            data: temp,
-            total: count,
-            pageNo: pageNo,
-            pageSize: pageSize,
-            msg: '用户列表获取成功',
-          })
-        })
-        .catch(() => {
-          res.send({ code: 500, msg: '用户列表获取失败' })
         })
     })
   })

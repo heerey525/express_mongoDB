@@ -12,11 +12,15 @@ const { getTokenInfo } = require('../utils/token');
  * @apiGroup Permit
  *
  * @apiParam {String} name 权限名
- * @apiParam {String} fid 权限父级
+ * @apiParam {Number} fid 权限父级
+ * @apiParam {String} path 权限路径
+ * @apiParam {Number} sort 排序
+ * @apiParam {Number} level 权限层级（ 0-一级菜单 1-二级菜单 2-操作 ）
+ * @apiParam {String} mark 权限标识（描述）
  */
 router.post('/add', (req, res) => {
   console.log('req.body', req.body)
-    let { name, fid, path, level, mark } = req.body
+    let { name, fid, path, level, mark, sort } = req.body
     if (!name || !fid.toString() || !path || !level.toString()) return res.send({code: 500, msg: '缺少参数'})
     Permit.find({ name })
     .then((data) => {
@@ -28,7 +32,7 @@ router.post('/add', (req, res) => {
     })
     .then((data) => {
       const id = data
-      return Permit.insertMany({ name, fid, id, path, level, mark })
+      return Permit.insertMany({ name, fid, id, path, level, mark, sort })
     })
     .then(() => {
         res.send({ code: 200, msg: '创建成功' })
@@ -45,12 +49,16 @@ router.post('/add', (req, res) => {
  * @apiGroup Permit
  *
  * @apiParam {String} id id
- * @apiParam {String} name 名称
- * @apiParam {String} fid 父级
+ * @apiParam {String} name 权限名
+ * @apiParam {Number} fid 权限父级
+ * @apiParam {String} path 权限路径
+ * @apiParam {Number} sort 排序
+ * @apiParam {Number} level 权限层级（ 0-一级菜单 1-二级菜单 2-操作 ）
+* @apiParam {String} mark 权限标识（描述）
  */
 router.post('/update', (req, res) => {
-    let { id, name, fid, path, level, mark } = req.body
-    Permit.update({ id }, { name, fid, path, level, mark })
+    let { id, name, fid, path, level, mark, sort } = req.body
+    Permit.update({ id }, { name, fid, path, level, mark, sort })
       .then(() => {
         res.send({ code: 200, msg: '修改成功' })
       })
@@ -89,7 +97,7 @@ router.post('/del', (req, res) => {
  */
 router.post('/page', (req, res) => {
     const pageNo = Number(req.body.pageNo) || 1
-    const pageSize = Number(req.body.pageSize) || 2
+    const pageSize = Number(req.body.pageSize) || 10
   
     const { key } = req.body
     const reg = new RegExp(key)
@@ -142,6 +150,7 @@ router.post('/page', (req, res) => {
               "path":permission.path,
               "level":permission.level,
               "mark":permission.mark,
+              "sort":permission.sort,
               "_showChildren": true,
               "children":[],
             };
@@ -161,6 +170,7 @@ router.post('/page', (req, res) => {
                 "path":permission.path,
                 "level":permission.level,
                 "mark":permission.mark,
+                "sort":permission.sort,
                 "_showChildren": true,
                 "children":[],
               });
@@ -169,6 +179,14 @@ router.post('/page', (req, res) => {
         }
 
         rootPermissionsResult = rootPermissionsResult.filter(item => item)
+        // 排序
+        rootPermissionsResult.sort((a, b) => a.sort - b.sort)
+        for(let i = 0; i < rootPermissionsResult.length; i++) {
+          if (rootPermissionsResult[i].children && rootPermissionsResult[i].children.length) {
+            rootPermissionsResult[i].children.sort((a, b) => a.sort - b.sort)
+          }
+        }
+
         res.send({
           code: 200,
           data: rootPermissionsResult,
@@ -223,6 +241,7 @@ router.post('/menus', (req, res) => {
           "path":permission.path,
           "level":permission.level,
           "mark":permission.mark,
+          "sort":permission.sort,
           "_showChildren": true,
           "children":[],
         };
@@ -242,6 +261,7 @@ router.post('/menus', (req, res) => {
             "path":permission.path,
             "level":permission.level,
             "mark":permission.mark,
+            "sort":permission.sort,
             "_showChildren": true,
             "children":[],
           });
@@ -250,6 +270,13 @@ router.post('/menus', (req, res) => {
     }
 
     rootPermissionsResult = rootPermissionsResult.filter(item => item)
+    // 排序
+    rootPermissionsResult.sort((a, b) => a.sort - b.sort)
+    for(let i = 0; i < rootPermissionsResult.length; i++) {
+      if (rootPermissionsResult[i].children && rootPermissionsResult[i].children.length) {
+        rootPermissionsResult[i].children.sort((a, b) => a.sort - b.sort)
+      }
+    }
     res.send({
       code: 200,
       data: rootPermissionsResult,

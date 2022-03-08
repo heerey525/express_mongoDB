@@ -14,6 +14,8 @@ show collections
 导出(mongoexport) 
 导出数据命令：mongoexport -h dbhost -d dbname -c collectionName -o output
 列子：mongoexport -h localhost:27017 -d expressdbs -c counters -o D:/proAddress/node/express_mongoDB/sql/counters.json
+mongoexport -h localhost:27017 -d expressdbs -c counters -o D:/Projects/node/gitee/express_mongoDB/sql/counters.json
+mongoexport -h localhost:27017 -d expressdbs -c counters -o E:/hlNode/express_mongoDB/sql/counters.json
 
 -h ：数据库地址，MongoDB 服务器所在的 IP 与 端口，如 localhost:27017
 

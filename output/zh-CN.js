@@ -1,0 +1,1 @@
+export default {"member_card_number":"卡号\r","member_name":"姓名\r"}

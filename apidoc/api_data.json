@@ -1,23 +1,10 @@
 [
   {
     "type": "post",
-    "url": "/file/uploadrar",
-    "title": "压缩文件上传()",
-    "name": "压缩文件上传",
+    "url": "/file/downloadrar",
+    "title": "压缩文件下载",
+    "name": "压缩文件下载",
     "group": "File",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "avatar",
-            "description": "<p>压缩文件上传</p>"
-          }
-        ]
-      }
-    },
     "version": "0.0.0",
     "filename": "router/fileRouter.js",
     "groupTitle": "File"
@@ -25,7 +12,7 @@
   {
     "type": "post",
     "url": "/file/downloadrar",
-    "title": "压缩文件下载",
+    "title": "手动清除服务器生成的压缩文件（防止别人下载）",
     "name": "压缩文件下载",
     "group": "File",
     "version": "0.0.0",
@@ -54,6 +41,165 @@
     "version": "0.0.0",
     "filename": "router/fileRouter.js",
     "groupTitle": "File"
+  },
+  {
+    "type": "post",
+    "url": "/file/upload",
+    "title": "图片上传",
+    "name": "图片上传",
+    "group": "File",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "avatar",
+            "description": "<p>上传文件</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/fileRouter.js",
+    "groupTitle": "File"
+  },
+  {
+    "type": "post",
+    "url": "/file/uploadrar",
+    "title": "文件上传压缩(支持多个视频或图片，其他未测)",
+    "name": "文件上传压缩",
+    "group": "File",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "avatar",
+            "description": "<p>被压缩文件</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/fileRouter.js",
+    "groupTitle": "File"
+  },
+  {
+    "type": "post",
+    "url": "/foodType/del",
+    "title": "删除",
+    "name": "删除",
+    "group": "FoodType",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "typeid",
+            "description": "<p>分类id</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/foodTypeRouter.js",
+    "groupTitle": "FoodType"
+  },
+  {
+    "type": "post",
+    "url": "/foodType/update",
+    "title": "商品分类修改",
+    "name": "商品分类修改",
+    "group": "FoodType",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "typeid",
+            "description": "<p>分类id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>名称</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/foodTypeRouter.js",
+    "groupTitle": "FoodType"
+  },
+  {
+    "type": "post",
+    "url": "/foodType/page",
+    "title": "商品分类列表",
+    "name": "商品分类列表",
+    "group": "FoodType",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pageNo",
+            "description": "<p>页数</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>条数</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "key",
+            "description": "<p>关键字查询</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/foodTypeRouter.js",
+    "groupTitle": "FoodType"
+  },
+  {
+    "type": "post",
+    "url": "/foodType/add",
+    "title": "商品分类添加",
+    "name": "商品分类添加",
+    "group": "FoodType",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>名称</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "router/foodTypeRouter.js",
+    "groupTitle": "FoodType"
   },
   {
     "type": "post",
@@ -566,14 +712,42 @@
             "type": "String",
             "optional": false,
             "field": "name",
-            "description": "<p>名称</p>"
+            "description": "<p>权限名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "fid",
+            "description": "<p>权限父级</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "fid",
-            "description": "<p>父级</p>"
+            "field": "path",
+            "description": "<p>权限路径</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "sort",
+            "description": "<p>排序</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "level",
+            "description": "<p>权限层级（ 0-一级菜单 1-二级菜单 2-操作 ）</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "mark",
+            "description": "<p>权限标识（描述）</p>"
           }
         ]
       }
@@ -660,10 +834,38 @@
           },
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Number",
             "optional": false,
             "field": "fid",
             "description": "<p>权限父级</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "path",
+            "description": "<p>权限路径</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "sort",
+            "description": "<p>排序</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "level",
+            "description": "<p>权限层级（ 0-一级菜单 1-二级菜单 2-操作 ）</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "mark",
+            "description": "<p>权限标识（描述）</p>"
           }
         ]
       }
@@ -1025,8 +1227,29 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "time",
-            "description": "<p>创建时间</p>"
+            "field": "roleId",
+            "description": "<p>角色</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "age",
+            "description": "<p>年龄</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": false,
+            "field": "state",
+            "description": "<p>是否启用</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "sex",
+            "description": "<p>性别 0-男 1-女</p>"
           }
         ]
       }
@@ -1069,6 +1292,64 @@
           "type": "json"
         }
       ]
+    },
+    "version": "0.0.0",
+    "filename": "router/userRouter.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/user/update",
+    "title": "用户编辑",
+    "name": "用户编辑",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "us",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "roleId",
+            "description": "<p>角色</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "age",
+            "description": "<p>年龄</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": false,
+            "field": "state",
+            "description": "<p>是否启用</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "sex",
+            "description": "<p>性别 0-男 1-女</p>"
+          }
+        ]
+      }
     },
     "version": "0.0.0",
     "filename": "router/userRouter.js",
