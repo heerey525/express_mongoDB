@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
-    "archiver": "^5.0.0",
+    "archiver": "^5.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "log4js": "^6.3.0",
-    "mongoose": "^5.9.25",
+    "mongoose": "^5.10.15",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.16",
-    "qiniu": "^7.3.2",
+    "qiniu": "^7.4.0",
     "xlsx": "^0.16.6"
   },
   "devDependencies": {},

@@ -76,7 +76,7 @@ var upload = multer({ storage: storage }).single('avatar')
 var qiniuStorage = multer.diskStorage({
   // destination是用来确定上传的文件应该存储在哪个文件夹中
   destination: function (req, file, cb) {
-    cb(null, './static/temp')
+    cb(null, './static/qiniu')
   },
   // filename 用于确定文件夹中的文件名的确定
   filename: function (req, file, cb) {
@@ -136,7 +136,7 @@ router.post('/qiniuUpload', qiniuUpload, (req, res) => {
     originalname.split('.').length - 1
   ]
   const file_name = `${timestamp}${randomNum}.${suffix}`
-  const file_path = `./static/temp/${filename}`
+  const file_path = `./static/qiniu/${filename}`
 
   upload_file(file_name, file_path)
     .then(data => {
